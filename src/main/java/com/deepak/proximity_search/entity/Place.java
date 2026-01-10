@@ -6,6 +6,15 @@ public class Place {
     private Integer capacity;
     private PlaceCategory category;
     private Coordinate location;
+    boolean isActive = true;
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 
     public Integer getId() {
         return id;

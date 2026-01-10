@@ -1,11 +1,13 @@
 package com.deepak.proximity_search.service;
 import com.deepak.proximity_search.dto.PlaceCreateRequest;
+import com.deepak.proximity_search.dto.PlaceUpdateRequest;
 import com.deepak.proximity_search.entity.Coordinate;
 import com.deepak.proximity_search.entity.Place;
 import com.deepak.proximity_search.entity.PlaceCategory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class PlaceServiceImpl implements PlaceService{
@@ -25,18 +27,33 @@ public class PlaceServiceImpl implements PlaceService{
         places.add(place);
         return place;
     }
-    void updatePlace(){
-
+    @Override
+    public Place updatePlace(Integer id, PlaceUpdateRequest obj){
+        Place place = places.get(id);
+        place.setName(obj.getName());
+        place.setCapacity(obj.getCapacity());
+        place.setCategory(PlaceCategory.valueOf(obj.getCategory().toUpperCase()));
+        Coordinate coordinate = new Coordinate();
+        coordinate.setLatitude(obj.getLatitude());
+        coordinate.setLongitude(obj.getLongitude());
+        place.setLocation(coordinate);
+        return place;
     }
-//    void deletePlace(){
-//
-//    }
-//    void getPlaceById(){
-//
-//    }
-//    void getAllPlace(){
-//
-//    }
+    @Override
+    public void deletePlace(Integer id){
+        Place place = places.get(id);
+        place.setActive(false);
+    }
+    @Override
+    public Place getPlaceById(Integer id){
+        return places.get(id);
+    }
+    @Override
+    public List<Place> getAllPlace(){
+        return places.stream()
+                .filter(Place::isActive)
+                .collect(Collectors.toList());
+    }
 //    void findPlacesWithinRadius(){
 //
 //    }
